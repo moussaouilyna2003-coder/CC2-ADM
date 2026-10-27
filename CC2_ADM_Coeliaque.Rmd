@@ -1,0 +1,70 @@
+---
+title: "CC2 ADM - Microbiote et maladie coeliaque"
+output: html_document
+date: "2026-10-27"
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r}
+path_article <- "/home/rstudio/FINAL-VERSION-DADA2/data2"
+
+length(list.files(path_article, pattern = "\\.fastq\\.gz$"))
+```
+
+#Identifier les fichiers Forward et Reverse
+
+```{r}
+# Liste des fichiers Forward
+
+fnFs_article <- sort(list.files(
+  path_article,
+  pattern = "_1\\.fastq\\.gz$",
+  full.names = TRUE
+))
+
+# Liste des fichiers Reverse
+fnRs_article <- sort(list.files(
+  path_article,
+  pattern = "_2\\.fastq\\.gz$",
+  full.names = TRUE
+))
+
+# Vérification du nombre de fichiers
+length(fnFs_article)
+length(fnRs_article)
+```
+
+
+```{r}
+# Vérification des paires Forward et Reverse
+sample.names_article <- sub("_1\\.fastq\\.gz$", "", basename(fnFs_article))
+
+sample.namesR_article <- sub("_2\\.fastq\\.gz$", "", basename(fnRs_article))
+
+identical(sample.names_article, sample.namesR_article)
+```
+
+on retire _1.fastq.gz et _2.fastq.gz des noms pour comparer les identifiants SRR des deux lectures.
+
+
+#Visualiser la qualité des 
+## Visualisation de la qualité des lectures Forward
+```{r}
+plotQualityProfile(fnFs_article[1:2])
+```
+# interprétation 
+Les deux échantillons Forward présentent une bonne qualité globale, avec des scores proches de Q40. 
+Mais la qualité  diminue légèrement vers la fin des séquences
+
+
+# Visualisation de la qualité des lectures Reverse
+
+```{r}
+plotQualityProfile(fnRs_article[1:2])
+```
+
+
+
+
+
